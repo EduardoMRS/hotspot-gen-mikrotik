@@ -1,4 +1,4 @@
-# Hotspot Mikrotik Generator
+# Hotspot Mikrotik Generator With ADS
 
 Este repositório contém a base para um hotspot Mikrotik com uma página de geração de hotspot. A aplicação permite o download dos arquivos necessários para seu funcionamento assim que as informações são salvas no painel de administração.
 
