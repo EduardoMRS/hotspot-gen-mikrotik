@@ -5,9 +5,8 @@
             <div class="modal-header justify-content-center align-items-center">
                 <h5 class="modal-title" id="modal_manager_ads_video_label">Gerenciador de Vídeos</h5>
                 <button type="button" class="btn-close d-flex align-items-center justify-content-center"
-                    data-bs-toggle="modal" style="color:white; --bs-btn-close-bg:none;">
-                    <i class="fa-solid fa-xmark fa-2xl" style="color: #f0f2f4;"></i>
-                </button>
+                    data-bs-dismiss="modal" aria-label="Close" style="color:white; --bs-btn-close-bg:none;"><i
+                        class="fa-solid fa-xmark fa-2xl" style="color: #f0f2f4;"></i></button>
             </div>
             <div class="modal-body">
                 <ul id="videoList" class="list-group mb-3">

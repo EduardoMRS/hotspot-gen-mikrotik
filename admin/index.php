@@ -1,4 +1,4 @@
-<?php 
+<?php
 $config = json_decode(file_get_contents('../config.json'), true);
 ?>
 <!DOCTYPE html>
@@ -11,7 +11,7 @@ $config = json_decode(file_get_contents('../config.json'), true);
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/fonts/fa/css/all.css">
     <link rel="stylesheet" href="../assets/css/style.php?v=2.2">
-    <link rel="shortcut icon" href="../logo.webp">
+    <link rel="shortcut icon" href="./logo.webp">
 
 
     <script src="../assets/js/jquery-3.5.1.min.js"></script>
@@ -57,6 +57,10 @@ $config = json_decode(file_get_contents('../config.json'), true);
         width: auto !important;
         height: 16rem !important;
     }
+
+    #background {
+        background: url(./background.webp);
+    }
 </style>
 
 <body>
@@ -74,12 +78,12 @@ $config = json_decode(file_get_contents('../config.json'), true);
 
 
     <!-- Modal Download -->
-    <div class="modal fade" id="download_photos" tabindex="-1" role="dialog" aria-labelledby="download_photos_Label"
+    <div class="modal fade" id="download_hotspot" tabindex="-1" role="dialog" aria-labelledby="download_hotspot_Label"
         aria-hidden="trues">
         <div class="modal-dialog" role="document" style="--bs-modal-width: 300px;">
             <div class="modal-content" style="background-color: #212529;">
                 <div class="modal-header justify-content-center align-items-center">
-                    <h5 class="modal-title" id="download_photos_Label"></h5>
+                    <h5 class="modal-title" id="download_hotspot_Label"></h5>
                     <button type="button" class="btn-close d-flex align-items-center justify-content-center"
                         data-bs-dismiss="modal" aria-label="Close" style="color:white; --bs-btn-close-bg:none;"><i
                             class="fa-solid fa-xmark fa-2xl" style="color: #f0f2f4;"></i></button>
@@ -94,24 +98,6 @@ $config = json_decode(file_get_contents('../config.json'), true);
         </div>
     </div>
 
-
-    <!-- Modal Upload Photo -->
-    <div class="modal fade" id="modal_upload_photo" tabindex="-1" role="dialog"
-        aria-labelledby="modal_upload_photo_Label" aria-hidden="trues">
-        <div class="modal-dialog modal-fullscreen-lg-down" role="document" style="--bs-modal-width: 850px;">
-            <div class="modal-content" style="background-color: #212529;">
-                <div class="modal-header justify-content-center align-items-center">
-                    <h5 class="modal-title" id="modal_upload_photo_Label"></h5>
-                    <button type="button" class="btn-close d-flex align-items-center justify-content-center"
-                        data-bs-dismiss="modal" aria-label="Close" style="color:white; --bs-btn-close-bg:none;"><i
-                            class="fa-solid fa-xmark fa-2xl" style="color: #f0f2f4;"></i></button>
-                </div>
-                <div class="modal-body">
-                    <?php include("./new_photo.php"); ?>
-                </div>
-            </div>
-        </div>
-    </div>
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/bootstrap.min.js"></script>
 </body>
