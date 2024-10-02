@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="refresh" content="2; url=$(link-redirect)">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+    <link rel="shortcut icon" href="logo.webp" type="image/x-webp">
+    
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script>
+        function startClock() {
+            $(if popup == 'true')
+                open('$(link-status)', 'hotspot_status', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=290,height=200');
+            $(endif)
+            location.href = unescape('$(link-redirect-esc)');
+        }
+
+    </script>
+</head>
+
+<body onLoad="startClock()" class="w-100 d-flex justify-content-center">
+    <div id="background">
+        <div id="background-linear-gradient"></div>
+    </div>
+    <section id="body" class="container px-4 w-40">
+        <section id="sucess" class="row hide justify-content-center align-items-center text-center">
+            <img class="rounded mx-auto d-block mb-3" src="assets/img/logo.webp" alt="Logo do Provedor" style="height: 100px !important;">
+
+            <h3>Conexão Liberada!</h3>
+            <p>Obrigado por se conectar conosco. Agora você tem acesso à internet gratuita.</p>
+            <p class="info">Se nada acontecer, clique <a href="$(link-redirect)">aqui</a></p>
+        </section>
+    </section>
+
+    <script>
+        fetch('config.json')
+            .then(response => response.json())
+            .then(data => {
+                document.title = ((data.wifi_name != null && data.wifi_name !== "") ? `${data.wifi_name} - ` : "") + "Acessando!";
+                // Atualize outros elementos conforme necessário
+            });
+    </script>
+</body>
+
+</html>

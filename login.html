@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="logo.webp" type="image/x-webp">
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/fa/css/all.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <script src="assets/js/jquery-3.5.1.min.js"></script>
+    <script src="md5.js"></script>
+</head>
+
+<body class="w-100 d-flex justify-content-center">
+    <div id="background">
+        <div id="background-linear-gradient"></div>
+    </div>
+    <section id="body" class="container px-4 w-30">
+        <section id="trial_access" class="row hide">
+            <div id="progress_box" class="progress hide" role="progressbar" aria-label="timer-ads" aria-valuenow="100"
+                aria-valuemin="0" aria-valuemax="100">
+                <div id="progress_timer" class="progress-bar" style="width: 100%"></div>
+                <label id="progress_timer_label"></label>
+            </div>
+            <div class="ads-video">
+                <div class="d-flex text-center pr-2"
+                    style="background-color: #161616; margin-bottom: -12px; position: relative; z-index: 1;">
+                    <p class="w-100" style="color: #e6e6e6;">Sua internet será liberada após o anuncio ☺</p>
+                </div>
+                <video id="ads_video" src="" autoplay playsinline></video>
+                <span id="play-box" class="play-icon" onclick="playVideo()">
+                    <i class="fa-regular fa-circle-play"></i>
+                </span>
+
+                <span class="container text-center btn-login-mode-trial">
+                    <i class="fa-solid fa-user" onclick="changeLoginMode()"></i>
+                </span>
+            </div>
+        </section>
+
+        <section id="login_access" class="row section  hide">
+            $(if trial == 'yes')
+            <span class="container text-center btn-login-mode">
+                <i class="fa-solid fa-play" onclick="changeLoginMode()"></i>
+            </span>
+            $(endif)
+            <div>
+                <img class="rounded mx-auto d-block mb-3" src="assets/img/logo.webp" alt="Logo"
+                    style="height: 100px !important;">
+            </div>
+
+            <form name="login" id="loginForm" action="$(link-login-only)" method="post">
+                <div class="form-group">
+                    <label for="username">Usuário</label>
+                    <input name="username" id="username" type="text" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input name="password" id="password" type="password" class="form-control" required>
+                </div>
+                <div class="d-flex justify-content-center py-3">
+                    <button type="submit" class="btn btn-primary">Entrar</button>
+                </div>
+                <input type="hidden" name="dst" value="$(link-orig)">
+                <input type="hidden" name="popup" value="true">
+            </form>
+        </section>
+    </section>
+
+    <script>
+        const chapId = '$(chap-id)';
+        const chapChallenge = '$(chap-challenge)';
+        const trialAvailable = '$(trial)' === 'yes';
+        const usernameField = document.getElementById("username");
+        const passwordField = document.getElementById("password");
+        const loginForm = document.getElementById("loginForm");
+
+        const trialSection = document.getElementById("trial_access");
+        const loginAccessSection = document.getElementById("login_access");
+
+        activeTrialMode = trialAvailable;
+
+        function showAccessScreen() {
+            if (activeTrialMode) {
+                loginAccessSection.classList.add("slide-out");
+                trialSection.classList.remove("hide");
+                trialSection.classList.add("slide-in");
+
+                setTimeout(() => {
+                    loginAccessSection.classList.add("hide");
+                    loginAccessSection.classList.remove("slide-out");
+                    trialSection.classList.remove("slide-in");
+                }, 500); // Duração da animação
+            } else {
+                trialSection.classList.add("slide-out");
+                loginAccessSection.classList.remove("hide");
+                loginAccessSection.classList.add("slide-in");
+
+                setTimeout(() => {
+                    trialSection.classList.add("hide");
+                    trialSection.classList.remove("slide-out");
+                    loginAccessSection.classList.remove("slide-in");
+                }, 500); // Duração da animação
+            }
+        }
+
+        function changeLoginMode() {
+            activeTrialMode = !activeTrialMode; // Alterna o modo
+            showAccessScreen(); // Atualiza a tela de acordo com o modo
+        }
+
+        if (activeTrialMode) {
+            showAccessScreen();
+            const video = document.getElementById("ads_video");
+            const progressBox = document.getElementById("progress_box");
+            const progressTimer = document.getElementById("progress_timer");
+            const progressTimerLabel = document.getElementById("progress_timer_label");
+            let interval;
+            let duration;
+
+            // Função para carregar um vídeo aleatório
+            function loadRandomVideo() {
+                fetch('ads.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.length > 0) {
+                            const randomIndex = Math.floor(Math.random() * data.length);
+                            document.getElementById("ads_video").src = `assets/${data[randomIndex]}`;
+                        } else {
+                            console.error('Nenhum vídeo encontrado no ads.json');
+                        }
+                    })
+                    .catch(error => console.error('Erro ao carregar ads.json:', error));
+            }
+
+            loadRandomVideo(); // Carregar um vídeo aleatório
+
+            function startTimer(durationVideo) {
+                let cont = durationVideo;
+                progressTimerLabel.innerHTML = `${Math.floor(cont)} segundos`;
+
+                interval = setInterval(() => {
+                    const percent = (cont * 100) / durationVideo;
+                    if (cont >= 0) {
+                        progressPercet(percent);
+                        progressTimerLabel.innerHTML = (cont === 0 ? "Pronto!" : `${Math.floor(cont)} segundos`);
+                        cont--;
+                    } else {
+                        progressPercet(0);
+                        clearInterval(interval);
+                        redirectToTrial();
+                    }
+                }, 1000);
+            }
+
+            function progressPercet(percent) {
+                progressBox.setAttribute("aria-valuenow", percent);
+                progressTimer.style.width = `${percent}%`;
+            }
+
+            video.addEventListener("ended", () => {
+                redirectToTrial();
+            });
+
+            window.playVideo = function () {
+                progressBox.classList.remove("hide");
+                const video = document.getElementById("ads_video");
+                video.play();
+                const playIcon = document.querySelector('.play-icon');
+                playIcon.style.display = 'none';
+                startTimer(video.duration);
+                video.addEventListener("loadedmetadata", () => {
+                    duration = Math.floor(video.duration);
+                    startTimer(duration);
+                });
+            };
+
+            function redirectToTrial() {
+                const macEsc = '$(mac-esc)';
+                const linkLoginOnly = '$(link-login-only)';
+                const linkOrigEsc = '$(link-orig-esc)';
+
+                window.location.href = `${linkLoginOnly}?dst=${linkOrigEsc}&username=T-${macEsc}`;
+            }
+        } else {
+            showAccessScreen();
+
+            loginForm.onsubmit = function () {
+                const passwordHash = hexMD5(chapId + passwordField.value + chapChallenge);
+                passwordField.value = passwordHash;
+                return true;
+            };
+        }
+
+        fetch('config.json')
+            .then(response => response.json())
+            .then(data => {
+                document.title = `${data.site_title}`;
+                // Atualize outros elementos conforme necessário
+            });
+    </script>
+
+</body>
+
+</html>

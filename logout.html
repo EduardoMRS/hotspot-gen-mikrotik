@@ -1,0 +1,58 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />   
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="-1">
+<link rel="shortcut icon" href="logo.webp" type="image/x-webp">
+
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>
+    function openLogin() {
+	if (window.name != 'hotspot_logout') return true;
+	open('$(link-login)', '_blank', '');
+	window.close();
+	return false;
+    }
+</script>
+</head>
+
+<body class="w-100 d-flex">
+    <div id="background">
+        <div id="background-linear-gradient"></div>
+    </div>
+    <section id="sucess" class="section container px-4 justify-content-center align-items-center w-40">
+        <img class="rounded mx-auto d-block mb-3" src="assets/img/logo.webp" alt="Logo" style="height: 100px !important;">
+
+        <h1>Você acabou de sair!</h1> 
+        <table>  
+            <tr><td>Usuario: </td><td>$(username)</td></tr>
+            <tr><td>Meu IP: </td><td>$(ip)</td></tr>
+            <tr><td>Endereço MAC: </td><td>$(mac)</td></tr>
+            <tr><td>Tempo de sessão: </td><td>$(uptime)</td></tr>
+            $(if session-time-left)
+            <tr><td>Tempo restante: </td><td>$(session-time-left)</td></tr>
+            $(endif)
+            <tr>
+                <td>Upload: $(bytes-in-nice)b</td>
+                <td>Download: $(bytes-out-nice)b</td>
+            </tr>
+        </table>
+        <form action="$(link-login)" name="login" onSubmit="return openLogin()">
+            <div class="d-flex justify-content-center py-3">
+                <input type="submit" class="btn btn-success col-6" value="Entrar">
+            </div>
+        </form>
+    </section>
+
+    <script>
+        fetch('config.json')
+            .then(response => response.json())
+            .then(data => {
+                document.title = ((data.wifi_name != null && data.wifi_name !== "") ? `${data.wifi_name} - ` : "") + "Até logo!";
+                // Atualize outros elementos conforme necessário
+            });
+    </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+    "wifi_name": "WiFi Aberto",
+    "site_title": "Vamos Navegar?",
+    "site_description": "Hotspot Generator by Edu",
+    "favicon": "..\/assets\/img\/logo.webp",
+    "background": "..\/assets\/img\/background.webp",
+    "background_mb": "..\/assets\/img\/background_mb.webp",
+    "colorLinearGradient_1": "#000000",
+    "colorLinearGradient_2": "#7a7a7a",
+    "opacityLinearGradient": "25"
+}

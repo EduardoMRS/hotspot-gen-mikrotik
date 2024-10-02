@@ -1,0 +1,57 @@
+<html>
+
+<head>
+    <meta http-equiv="refresh" content="2; url=$(link-orig)">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+    <link rel="shortcut icon" href="logo.webp" type="image/x-webp">
+    
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script>
+
+        var popup = '';
+        function openOrig() {
+            if (window.focus) popup.focus();
+            location.href = unescape('$(link-orig-esc)');
+        }
+        function openAd() {
+            location.href = unescape('$(link-redirect-esc)');
+        }
+        function openAdvert() {
+            if (window.name != 'hotspot_advert') {
+                popup = open('$(link-redirect)', 'hotspot_advert', '');
+                setTimeout("openOrig()", 1000);
+                return;
+            }
+            setTimeout("openAd()", 1000);
+        }
+    </script>
+</head>
+
+<body onLoad="openAdvert()" class="w-100 d-flex justify-content-center">
+    <div id="background">
+        <div id="background-linear-gradient"></div>
+    </div>
+    <section id="body" class="container px-4 w-30">
+        <section id="sucess" class="row hide justify-content-center align-items-center text-center">
+            <img class="rounded mx-auto d-block mb-3" src="assets/img/logo.webp" alt="Logo" style="height: 100px !important;">
+
+            <h3>Anuncio</h3>
+            <p class="info">Se nada acontecer, clique <a href="$(link-redirect)">aqui</a></p>
+        </section>
+    </section>
+
+    <script>
+        fetch('config.json')
+            .then(response => response.json())
+            .then(data => {
+                document.title = ((data.wifi_name != null && data.wifi_name !== "") ? `${data.wifi_name} - ` : "") + "Anuncio";
+                // Atualize outros elementos conforme necessário
+            });
+    </script>
+</body>
+
+</html>
