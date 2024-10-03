@@ -35,12 +35,17 @@
                     <i class="fa-regular fa-circle-play"></i>
                 </span>
 
+
+                $(if chap-id)
                 <span class="container text-center btn-login-mode-trial">
                     <i class="fa-solid fa-user" onclick="changeLoginMode()"></i>
                 </span>
+                $(endif)
             </div>
         </section>
 
+
+        $(if chap-id)
         <section id="login_access" class="row section  hide">
             $(if trial == 'yes')
             <span class="container text-center btn-login-mode">
@@ -68,6 +73,7 @@
                 <input type="hidden" name="popup" value="true">
             </form>
         </section>
+        $(endif)
     </section>
 
     <script>
@@ -181,19 +187,20 @@
             function redirectToTrial() {
                 const macEsc = '$(mac-esc)';
                 const linkLoginOnly = '$(link-login-only)';
-                const linkOrigEsc = '$(link-orig-esc)';
+                const linkOrigEsc = `dst=${linkOrigEsc}`;
 
-                window.location.href = `${linkLoginOnly}?dst=${linkOrigEsc}&username=T-${macEsc}`;
+                window.location.href = `${linkLoginOnly}?username=T-${macEsc}`;
             }
         } else {
             showAccessScreen();
-
-            loginForm.onsubmit = function () {
-                const passwordHash = hexMD5(chapId + passwordField.value + chapChallenge);
-                passwordField.value = passwordHash;
-                return true;
-            };
         }
+
+        // Envia os dados de login para o router
+        loginForm.onsubmit = function () {
+            const passwordHash = hexMD5(chapId + passwordField.value + chapChallenge);
+            passwordField.value = passwordHash;
+            return true;
+        };
 
         fetch('config.json')
             .then(response => response.json())
