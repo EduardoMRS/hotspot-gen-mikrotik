@@ -1,7 +1,9 @@
+$(if http-status == 302)Hotspot redirect$(endif)
+$(if http-header == "Location")$(link-redirect)$(endif)
 <html>
 <head>
 <title>Redirecionamento</title>
-<meta http-equiv="refresh" content="0; url=status.html">
+<meta http-equiv="refresh" content="0; url=$(link-redirect)">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>    
